@@ -226,6 +226,55 @@ JOIN order o
 USING(customer_id) --this is equal to 💁‍♂️ ON c.customer_id = o.customer_id ''
 
 
+-- Gross join
+SELECT
+    c.customer_name as 'Customer',
+    o.product_name as 'Product'
+FROM customer c
+CROSS JOIN product p
+ORDER BY c.customer_name
+
+
+-- Union Clause 👩
+SELECT
+    p.product_name
+    'active' AS status
+FROM product
+WHERE p.added_at >= "2025-01-01"
+UNION
+SELECT
+    p.product_name
+    'archived' AS status
+FROM product
+WHERE p.added_at < "2025-01-01"
+
+
+SELECT
+   c.customer_id,
+   c.first_name,
+   c.points,
+   'bronze' AS type
+FROM customer c
+WHERE c.point < 2000
+UNION
+SELECT
+   c.customer_id,
+   c.first_name,
+   c.points,
+   'silver' AS type
+FROM customer c
+WHERE c.point BETWEEN 2000 AND 3000
+UNION
+SELECT
+   c.customer_id,
+   c.first_name,
+   c.points,
+   'Gold' AS type
+FROM customer c
+WHERE c.point > 3000
+ORDER BY c.first_name
+
+
 
 
 

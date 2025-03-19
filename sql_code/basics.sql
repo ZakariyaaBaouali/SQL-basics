@@ -372,4 +372,24 @@ END;
 
 
 
+-- work with functions
+CREATE FUNCTION get_total_payment(
+    client_id INT
+)
+RETURNS decimal
+READS SQL DATA
+BEGIN
+    declare total_payment decimal(6 , 2) default 0;
 
+    select sum(qauntity * unit_price) as total_payment
+    into total_payment
+    from orders o
+    where o.client_id = client_id;
+
+    return nullif(total_payment , 0);
+END;
+
+
+
+select get_total_payment(c.client_id) as 'total_payment' , full_name
+from clienst c

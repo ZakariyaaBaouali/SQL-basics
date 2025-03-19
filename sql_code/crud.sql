@@ -32,6 +32,7 @@ DELETE FROM customer where customer_id = 2
 
 -- Functions
 SELECT
+    product_id,
     SUM(product_prices) as 'total',
     MAX(product_prices) as 'max',
     MIN(product_prices) as 'min',
@@ -39,5 +40,29 @@ SELECT
     COUNT(product_id) as 'count'
 FROM
     products
+GROUP BY product_id
+HAVING total > 500
 
 
+
+--- example 01
+SELECT
+    c.customer_id,
+    o.order_id,
+    SUM(oi.quantity * oi.price) AS total_sales
+FROM customer c
+JOIN order o USING(customer_id)
+JOIN order_items oi USING(order_id)
+GROUP BY c.customer_id
+HAVING total_sales >= 200
+
+
+-- WITH  ROLLUP
+-- all
+SELECT
+    *
+FROM
+    products
+where .. > all (10 , 20 , 30 , 40)  -- greater than all of them
+where .. > any (10 , 20 , 30 , 40)  -- greater any of them
+--

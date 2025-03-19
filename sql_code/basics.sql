@@ -277,7 +277,33 @@ ORDER BY c.first_name
 
 
 
+-- views
+CREATE VIEW sales_by_client AS
+SELECT
+    c.client_id
+    c.first_name + ' ' + c.last_name AS full_name,
+    SUM(i.invoic_tolal) AS total_sales
+FROM
+    client c
+    JOIN invoices i
+    USING (client_id)
+GROUP BY c.client_id
+WITH CHECK OPTION
 
+
+
+SELECT *
+FROM sales_by_client
+ORDER BY total_sales DESC
+
+SELECT *
+FROM sales_by_client
+WHERE total_sales > 500
+
+
+--**
+DROP VIEW sales_by_client
+CREATE OR REPLACE sales_by_client
 
 
 

@@ -309,10 +309,66 @@ CREATE OR REPLACE sales_by_client
 
 
 
+-- stored procedure
+DELIMITER $$
+CREATE PROCEDURE get_clients()
+BEGIN
+    SELECT * FROM clients;
+END
+$$
+
+DELIMITER ;
+
+CALL get_clients()
+
+DROP PROCEDURE get_clients
 
 
+-- params
+DELIMITER $$
+CREATE PROCEDURE get_clients_by_state(
+    state char(2)
+)
+BEGIN
+    IF state IS NULL THEN
+        SET state = 'CA';
+    END IF;
+
+    SELECT * FROM clients c WHERE c.state = state;
+END
+$$
 
 
+CREATE PROCEDURE get_client_by_id(
+    client_id INT,
+    OUT name VARCHAR(100)
+)
+BEGIN
+    SELECT c.name
+        INTO name
+    FROM clients c
+    WHERE c.client_id = client_id;
+END
+
+
+-- sql as a programming language
+CREATE PROCEDURE get_clients_full_name(
+    client_id INT
+)
+BEGIN
+    DECLARE full_name VARCHAR(30) DEFAULT "";
+    DECLARE first_name VARCHAR(30);
+    DECLARE last_name VARCHAR(30);
+
+    SELECT first_name , last_name
+    INTO first_name , last_name
+    FROM clients c
+    WHERE c.client_id = client_id;
+
+    SET full_name = first_name + " " + last_name;
+
+    SELECT full_name;
+END;
 
 
 

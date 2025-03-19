@@ -393,3 +393,28 @@ END;
 
 select get_total_payment(c.client_id) as 'total_payment' , full_name
 from clienst c
+
+
+-- work with triggers
+CREATE TRIGGER payments_after_insert
+    AFTER INSERT ON payments
+    FOR EACH ROW
+BEGIN
+    update invoices
+    set payment_total = payment_total + NEW.amount
+    where invoice_id = NEW.invoice_id;
+END
+
+
+CREATE TRIGGER payments_after_delete
+    AFTER INSERT ON payments
+    FOR EACH ROW
+BEGIN
+    update invoices
+    set payment_total = payment_total - OLD.amount
+    where invoice_id = OLD.invoice_id;
+END
+
+
+show triggers
+drop trigger if exist trigger_name

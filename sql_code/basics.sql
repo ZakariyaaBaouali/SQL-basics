@@ -433,3 +433,39 @@ SHOW EVENTS;
 DROP event if exist name_event
 
 -- transactions
+     -- ACID
+     --
+START TRANSACTION;
+
+INSERT INTO orders(
+    customer_id ,
+    date,
+    status
+)
+VALUES (1 , '2025-03-20' , 1);
+
+INSERT INTO order_values(
+    order_id,
+    product_id,
+    quantity,
+    unit_price
+)
+VALUES (LAST_INSERT_ID() , 1 , 2 , 10);
+
+COMMIT;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

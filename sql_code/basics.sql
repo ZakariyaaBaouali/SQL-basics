@@ -418,3 +418,18 @@ END
 
 show triggers
 drop trigger if exist trigger_name
+
+--- events
+CREATE or ALTER EVENT daily_review
+ON SCHEDULE
+       -- AT '2025-03-20' - once
+EVERY 1 HOUR STARTS '2025-03-20' ENDS '2025-06-20'
+DO BEGIN
+    SQL ----
+END
+
+
+SHOW EVENTS;
+DROP event if exist name_event
+
+-- transactions
